@@ -1,0 +1,29 @@
+.home-page {
+  padding: 2rem 0;
+
+  .title {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 1.8rem;
+    color: var(--primary);
+  }
+
+  .movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .status {
+    text-align: center;
+    color: #777;
+    font-size: 1.1rem;
+    margin: 3rem 0;
+
+    &.error {
+      color: #e74c3c;
+    }
+  }
+}

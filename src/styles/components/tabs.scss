@@ -1,0 +1,29 @@
+.tab-bar {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+
+  button {
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    border: 2px solid var(--primary);
+    background: transparent;
+    color: var(--primary);
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+    &.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(108, 99, 255, 0.3);
+    }
+
+    &:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+  }
+}

@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+:root {
+  --primary: #6c63ff;
+  --bg: #f7f8fc;
+  --text: #2d2d2d;
+  --shadow: rgba(0, 0, 0, 0.08);
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+h1, h2, h3 {
+  margin: 0;
+}
+
+
+.page {
+  padding: 2rem;
+}
+
+.movie-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+
+.movie-detail {
+  display: flex;
+  gap: 2rem;
+  img {
+    width: 300px;
+    border-radius: 12px;
+  }
+}
+
+form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  input {
+    flex: 1;
+    padding: 0.5rem;
+  }
+
+  button {
+    padding: 0.5rem 1rem;
+    background: #01b4e4;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+.movie-card {
+  text-decoration: none;
+  color: #fff;
+  background: #0d253f;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  .poster {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2/3;
+    overflow: hidden;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+  }
+
+  .skeleton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #1b2a4e 25%, #223560 50%, #1b2a4e 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  h3 {
+    font-size: 1rem;
+    text-align: center;
+    padding: 0.75rem;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.loader {
+  text-align: center;
+  padding: 3rem 0;
+
+  .spinner {
+    margin: 0 auto 1rem;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top: 4px solid #01b4e4;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.error-message {
+  text-align: center;
+  color: #ff5252;
+  padding: 2rem;
+  font-weight: 600;
+}
