@@ -6,6 +6,8 @@ import TabBar from "../components/TabBar";
 import MovieList from "../components/MovieList";
 import HeroSlider from "../components/HeroSlider";
 import ViewModeToggle from "../components/ViewModeToggle";
+import { MdOutlineLocalMovies } from "react-icons/md";
+import SearchBar from "../components/SearchBar";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();

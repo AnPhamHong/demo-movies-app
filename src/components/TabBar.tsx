@@ -1,38 +1,26 @@
 import React from "react";
-import type { MovieCategory } from "../types/movie";
+import type { MovieCategory, TabBarProps } from "../types/movie";
 
-interface TabBarProps {
-  activeTab: MovieCategory;
-  onTabChange: (tab: MovieCategory) => void;
-}
+const tabs: { key: MovieCategory; label: string }[] = [
+  { key: "now_playing", label: "Now Playing" },
+  { key: "popular", label: "Popular" },
+  { key: "top_rated", label: "Top Rated" },
+  { key: "upcoming", label: "Upcoming" },
+  { key: "trending", label: "Trending" },
+];
 
 const TabBar: React.FC<TabBarProps> = ({ activeTab, onTabChange }) => {
   return (
     <div className="tab-bar">
-      <button
-        className={`tab-bar__button ${
-          activeTab === "now_playing" ? "active" : ""
-        }`}
-        onClick={() => onTabChange("now_playing")}
-      >
-        Now Playing
-      </button>
-      <button
-        className={`tab-bar__button ${
-          activeTab === "top_rated" ? "active" : ""
-        }`}
-        onClick={() => onTabChange("top_rated")}
-      >
-        Top Rated
-      </button>
-      <div
-        className="tab-bar__indicator"
-        style={{
-          transform: `translateX(${
-            activeTab === "now_playing" ? "0" : "100"
-          }%)`,
-        }}
-      />
+      {tabs.map((tab) => (
+        <button
+          key={tab.key}
+          className={`tab-bar__button ${activeTab === tab.key ? "active" : ""}`}
+          onClick={() => onTabChange(tab.key)}
+        >
+          {tab.label}
+        </button>
+      ))}
     </div>
   );
 };

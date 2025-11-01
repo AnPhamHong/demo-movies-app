@@ -1,65 +1,73 @@
 import React, { useState } from "react";
 import type { Movie } from "../types/movie";
 import { getImageUrl } from "../api/api";
+import { FaHeart, FaInfoCircle, FaPlay } from "react-icons/fa";
 
 interface MovieCardProps {
   movie: Movie;
   onClick: (movieId: number) => void;
-  viewMode?: "list" | "grid";
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({
-  movie,
-  onClick,
-  viewMode = "grid",
-}) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
-
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
-
-  const handleImageError = () => {
-    setImageError(true);
-    setImageLoaded(true);
-  };
+const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const posterUrl = getImageUrl(movie.poster_path);
+  const backdropUrl = getImageUrl(movie.backdrop_path);
 
   return (
-    <div
-      className={`movie-card ${viewMode} ${imageLoaded ? "loaded" : ""}`}
-      onClick={() => onClick(movie.id)}
-    >
-      <div className="movie-card__image-wrapper">
-        {!imageLoaded && <div className="movie-card__placeholder"></div>}
+    <div className="movie-card">
+      <div
+        className="movie-card__poster-wrapper"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <img
-          src={getImageUrl(movie.poster_path)}
+          src={posterUrl}
           alt={movie.title}
-          className="movie-card__image"
-          onLoad={handleImageLoad}
-          onError={handleImageError}
-          loading="lazy"
+          className="movie-card__poster"
+          onClick={() => onClick(movie.id)}
         />
-        <div className="movie-card__overlay">
-          <div className="movie-card__rating">
-            ⭐ {movie.vote_average.toFixed(1)}
+
+        {isHovered && (
+          <div className="movie-card__expanded">
+            <img
+              src={backdropUrl}
+              alt={movie.title}
+              className="expanded__poster"
+            />
+            <div className="expanded__content">
+              <h3>{movie.title}</h3>
+              <span className="sub">{movie.original_title}</span>
+              <div className="actions">
+                <button className="play">
+                  <FaPlay /> Watch Now
+                </button>
+                <button className="like">
+                  <FaHeart /> Add to Favorites
+                </button>
+                <button className="detail">
+                  <FaInfoCircle /> View Details
+                </button>
+              </div>
+              <div className="meta">
+                <span className="badge">{movie.adult ? "18+" : "T16"}</span>
+                <span>{new Date(movie.release_date).getFullYear()}</span>
+                <span>⭐ {movie.vote_average.toFixed(1)}</span>
+              </div>
+              <p className="overview">
+                {movie.overview.length > 300
+                  ? `${movie.overview.slice(0, 300)}...`
+                  : movie.overview}
+              </p>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="movie-card__content">
-        <h3 className="movie-card__title">{movie.title}</h3>
-        <p className="movie-card__date">
-          {movie.release_date
-            ? new Date(movie.release_date).getFullYear()
-            : "N/A"}
-        </p>
-        {viewMode === "list" && (
-          <p className="movie-card__overview">
-            {movie.overview.length > 150
-              ? `${movie.overview.substring(0, 150)}...`
-              : movie.overview}
-          </p>
         )}
+      </div>
+
+      <div
+        className="movie-card__title"
+        title={movie.title} // tooltip khi hover
+      >
+        {movie.title}
       </div>
     </div>
   );

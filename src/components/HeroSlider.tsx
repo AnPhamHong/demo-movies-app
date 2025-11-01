@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import type { Movie } from "../types/movie";
 import { getImageUrl } from "../api/api";
 import SearchBar from "./SearchBar";
+import { MdOutlineLocalMovies } from "react-icons/md";
 
 interface HeroSliderProps {
   movies: Movie[];
@@ -60,7 +61,9 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
 
       <header className="hero-slider__header">
         <div className="hero-slider__header-content">
-          <h1 className="hero-slider__logo">🎬 Movies</h1>
+          <div className="hero-slider__logo">
+            <MdOutlineLocalMovies color="#e50914" size={48} /> Movies
+          </div>
           <div className="hero-slider__search">
             <SearchBar
               onSearch={onSearch}

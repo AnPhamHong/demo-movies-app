@@ -1,8 +1,11 @@
+import { MdOutlineLocalMovies } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 export default function Navbar() {
   return (
     <nav className="navbar">
-      <h1 className="navbar__logo">🎬 Movies</h1>
+      <h1 className="navbar__logo">
+        <MdOutlineLocalMovies /> Movies
+      </h1>
 
       <ul className="navbar__links">
         <li>
