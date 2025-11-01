@@ -1,24 +1,68 @@
-import { useState } from "react";
-import { getImageUrl } from "../api/api";
+import React, { useState } from "react";
 import type { Movie } from "../types/movie";
+import { getImageUrl } from "../api/api";
 
-export default function MovieCard({ movie }: { movie: Movie }) {
-  const [loaded, setLoaded] = useState(false);
+interface MovieCardProps {
+  movie: Movie;
+  onClick: (movieId: number) => void;
+  viewMode?: "list" | "grid";
+}
+
+const MovieCard: React.FC<MovieCardProps> = ({
+  movie,
+  onClick,
+  viewMode = "grid",
+}) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const handleImageError = () => {
+    setImageError(true);
+    setImageLoaded(true);
+  };
 
   return (
-    <div className="movie-card">
-      <div className="poster">
+    <div
+      className={`movie-card ${viewMode} ${imageLoaded ? "loaded" : ""}`}
+      onClick={() => onClick(movie.id)}
+    >
+      <div className="movie-card__image-wrapper">
+        {!imageLoaded && <div className="movie-card__placeholder"></div>}
         <img
-          src={getImageUrl(movie.backdrop_path)}
+          src={getImageUrl(movie.poster_path)}
           alt={movie.title}
-          onLoad={() => setLoaded(true)}
-          className={loaded ? "loaded" : ""}
+          className="movie-card__image"
+          onLoad={handleImageLoad}
+          onError={handleImageError}
+          loading="lazy"
         />
+        <div className="movie-card__overlay">
+          <div className="movie-card__rating">
+            ⭐ {movie.vote_average.toFixed(1)}
+          </div>
+        </div>
       </div>
-      <div className="info">
-        <h3>{movie.title}</h3>
-        <span className="rating">⭐ {movie.vote_average.toFixed(1)}</span>
+      <div className="movie-card__content">
+        <h3 className="movie-card__title">{movie.title}</h3>
+        <p className="movie-card__date">
+          {movie.release_date
+            ? new Date(movie.release_date).getFullYear()
+            : "N/A"}
+        </p>
+        {viewMode === "list" && (
+          <p className="movie-card__overview">
+            {movie.overview.length > 150
+              ? `${movie.overview.substring(0, 150)}...`
+              : movie.overview}
+          </p>
+        )}
       </div>
     </div>
   );
-}
+};
+
+export default MovieCard;

@@ -1,29 +1,113 @@
 .home-page {
-  padding: 2rem 0;
+  min-height: 100vh;
+  background: #0a0a0a;
 
-  .title {
-    text-align: center;
-    font-size: 2.2rem;
-    font-weight: 600;
-    margin-bottom: 1.8rem;
-    color: var(--primary);
+  &__search-header-wrapper {
+    padding: 2rem;
+    background: #1a1a1a;
+    border-bottom: 1px solid #2a2a2a;
+    
+    > * {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
   }
 
-  .movie-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 1.5rem;
+  &__controls {
+    padding: 1.5rem 2rem;
+    background: #0a0a0a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 1rem;
+  }
+
+  &__tabs {
+    flex: 0 0 auto;
+  }
+
+  &__view-mode {
+    flex: 0 0 auto;
+  }
+
+  &__content {
+    max-width: 1400px;
+    margin: 0 auto;
     padding: 0 1rem;
   }
 
-  .status {
+  &__search-header {
     text-align: center;
-    color: #777;
-    font-size: 1.1rem;
-    margin: 3rem 0;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
 
-    &.error {
-      color: #e74c3c;
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      color: #fff;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #999;
+      margin: 0;
+    }
+  }
+
+  &__no-results {
+    text-align: center;
+    padding: 4rem 1rem;
+
+    p {
+      font-size: 1.2rem;
+      color: #999;
+      margin: 0.5rem 0;
+
+      &:first-child {
+        font-size: 1.5rem;
+        color: #fff;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .home-page {
+    &__search-header-wrapper {
+      padding: 1rem;
+    }
+
+    &__controls {
+      padding: 1rem;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+    }
+
+    &__tabs {
+      width: 100%;
+    }
+
+    &__view-mode {
+      align-self: flex-end;
+    }
+
+    &__content {
+      padding: 0 0.5rem;
+    }
+
+    &__search-header {
+      h2 {
+        font-size: 1.3rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+      }
     }
   }
 }

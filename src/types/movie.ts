@@ -22,3 +22,6 @@ export interface MovieCardProps {
     vote_average: number;
   };
 }
+
+export type MovieCategory = 'now_playing' | 'top_rated';
+export type ViewMode = 'list' | 'grid';

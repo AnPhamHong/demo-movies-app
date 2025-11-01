@@ -1,11 +1,22 @@
+import React from "react";
+
 interface ErrorMessageProps {
   message: string;
+  onRetry?: () => void;
 }
 
-export default function ErrorMessage({ message }: ErrorMessageProps) {
+const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, onRetry }) => {
   return (
     <div className="error-message">
-      <p>❌ {message}</p>
+      <div className="error-icon">⚠️</div>
+      <p className="error-text">{message}</p>
+      {onRetry && (
+        <button className="retry-button" onClick={onRetry}>
+          Retry
+        </button>
+      )}
     </div>
   );
-}
+};
+
+export default ErrorMessage;

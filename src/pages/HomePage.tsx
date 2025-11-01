@@ -1,38 +1,97 @@
-import type { ApiResponse } from "../types/movie";
-import MovieCard from "../components/MovieCard";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import React, { useState, useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import type { Movie, MovieCategory, ViewMode } from "../types/movie";
+import { movieApi } from "../api/api";
+import TabBar from "../components/TabBar";
+import MovieList from "../components/MovieList";
+import HeroSlider from "../components/HeroSlider";
+import ViewModeToggle from "../components/ViewModeToggle";
 
-const API_URL = "https://api.themoviedb.org/3/movie/now_playing";
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+const HomePage: React.FC = () => {
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<MovieCategory>("now_playing");
+  const [viewMode, setViewMode] = useState<ViewMode>("grid");
+  const [searchResults, setSearchResults] = useState<Movie[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [heroMovies, setHeroMovies] = useState<Movie[]>([]);
 
-const fetchNowPlaying = async (): Promise<ApiResponse> => {
-  const { data } = await axios.get(API_URL, {
-    params: { api_key: API_KEY, language: "en-US", page: 1 },
-  });
-  return data;
-};
+  useEffect(() => {
+    const fetchHeroMovies = async () => {
+      try {
+        const response = await movieApi.getNowPlaying(1);
+        setHeroMovies(response.results);
+      } catch (err) {
+        console.error("Error fetching hero movies:", err);
+      }
+    };
 
-export default function HomePage() {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["nowPlaying"],
-    queryFn: fetchNowPlaying,
-  });
+    fetchHeroMovies();
+  }, []);
 
-  if (isLoading) return <p className="text-center mt-10">Loading movies...</p>;
-  if (isError)
-    return (
-      <p className="text-center mt-10 text-red-500">Failed to load movies.</p>
-    );
+  const handleMovieClick = (movieId: number) => {
+    navigate(`/movie/${movieId}`);
+  };
+
+  const handleSearch = useCallback(async (query: string) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      setIsSearching(false);
+      return;
+    }
+
+    try {
+      setIsSearching(true);
+      const response = await movieApi.searchMovies(query);
+      setSearchResults(response.results);
+    } catch (err) {
+      console.error("Error searching movies:", err);
+      setSearchResults([]);
+    } finally {
+      setIsSearching(false);
+    }
+  }, []);
+
+  const handleTabChange = (tab: MovieCategory) => {
+    setActiveTab(tab);
+  };
+
+  const handleViewModeChange = (mode: ViewMode) => {
+    setViewMode(mode);
+  };
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center">🎬 Now Playing</h1>
-      <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-        {data?.results.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
+    <div className="home-page">
+      {heroMovies.length > 0 && (
+        <HeroSlider
+          movies={heroMovies}
+          onMovieClick={handleMovieClick}
+          onSearch={handleSearch}
+          searchResults={searchResults}
+          isSearching={isSearching}
+        />
+      )}
+
+      <div className="home-page__controls">
+        <div className="home-page__tabs">
+          <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
+        </div>
+        <div className="home-page__view-mode">
+          <ViewModeToggle
+            viewMode={viewMode}
+            onViewModeChange={handleViewModeChange}
+          />
+        </div>
       </div>
+
+      <main className="home-page__content">
+        <MovieList
+          category={activeTab}
+          onMovieClick={handleMovieClick}
+          viewMode={viewMode}
+        />
+      </main>
     </div>
   );
-}
+};
+
+export default HomePage;
