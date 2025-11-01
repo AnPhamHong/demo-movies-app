@@ -14,16 +14,6 @@ export interface ApiResponse {
   results: Movie[];
 }
 
-export interface MovieCardProps {
-  movie: {
-    id: number;
-    title: string;
-    overview: string;
-    poster_path: string;
-    release_date: string;
-    vote_average: number;
-  };
-}
 export interface Genre {
   id: number;
   name: string;
@@ -48,4 +38,15 @@ export type ViewMode = 'list' | 'grid';
 export interface TabBarProps {
   activeTab: MovieCategory;
   onTabChange: (tab: MovieCategory) => void;
+}
+
+export interface MovieCardProps {
+  movie: Movie;
+  onClick: (movieId: number) => void;
+  viewMode: ViewMode;
+}
+export interface MovieListProps {
+  category: MovieCategory;
+  onMovieClick: (movieId: number) => void;
+  viewMode?: ViewMode;
 }

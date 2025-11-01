@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import type { Movie } from "../types/movie";
 import { getImageUrl } from "../api/api";
-import SearchBar from "./SearchBar";
-import { MdOutlineLocalMovies } from "react-icons/md";
+import Header from "./Header";
+import { FaInfoCircle, FaPlay, FaStar } from "react-icons/fa";
 
 interface HeroSliderProps {
   movies: Movie[];
@@ -59,30 +59,22 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         <div className="hero-slider__backdrop-overlay"></div>
       </div>
 
-      <header className="hero-slider__header">
-        <div className="hero-slider__header-content">
-          <div className="hero-slider__logo">
-            <MdOutlineLocalMovies color="#e50914" size={48} /> Movies
-          </div>
-          <div className="hero-slider__search">
-            <SearchBar
-              onSearch={onSearch}
-              searchResults={searchResults}
-              isSearching={isSearching}
-              onMovieClick={onMovieClick}
-            />
-          </div>
-        </div>
-      </header>
+      <Header
+        onSearch={onSearch}
+        searchResults={searchResults}
+        isSearching={isSearching}
+        onMovieClick={onMovieClick}
+      />
 
       <div className="hero-slider__content">
         <div className="hero-slider__info">
           <h1 className="hero-slider__title">{currentMovie.title}</h1>
 
           <div className="hero-slider__meta">
-            <span className="hero-slider__rating">
-              ⭐ {currentMovie.vote_average.toFixed(1)}
-            </span>
+            <div className="hero-slider__rating">
+              <FaStar color="#ffd84d" size={16} />
+              {currentMovie.vote_average.toFixed(1)}
+            </div>
             <span className="hero-slider__year">
               {currentMovie.release_date
                 ? new Date(currentMovie.release_date).getFullYear()
@@ -101,32 +93,14 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
               className="hero-slider__button hero-slider__button--play"
               onClick={() => onMovieClick(currentMovie.id)}
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M8 5v14l11-7z" />
-              </svg>
+              <FaPlay size={16} />
               Watch Now
             </button>
             <button
               className="hero-slider__button hero-slider__button--info"
               onClick={() => onMovieClick(currentMovie.id)}
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" y1="16" x2="12" y2="12" />
-                <line x1="12" y1="8" x2="12.01" y2="8" />
-              </svg>
+              <FaInfoCircle size={16} />
               More Info
             </button>
           </div>

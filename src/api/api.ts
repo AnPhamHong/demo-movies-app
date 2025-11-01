@@ -1,34 +1,61 @@
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-const BASE_URL = import.meta.env.VITE_TMDB_BASE_URL;
+const BASE_URL =
+  import.meta.env.VITE_TMDB_BASE_URL || "https://api.themoviedb.org/3";
+const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/'
+/**
+ * Trả về URL ảnh TMDb
+ */
+export const getImageUrl = (
+  path: string | null,
+  size: string = "w500"
+): string => {
+  return path ? `${IMAGE_BASE_URL}${size}${path}` : "";
+};
 
-export const getImageUrl = (path: string | null, size: string = 'w500') => {
-  return path ? `${IMAGE_BASE_URL}${size}${path}` : '';
+/**
+ * Wrapper fetch với check lỗi
+ */
+const fetchApi = async (url: string) => {
+  try {
+    const res = await fetch(url);
+    if (!res.ok)
+      throw new Error(`API request failed with status ${res.status}`);
+    return res.json();
+  } catch (error) {
+    console.error("Movie API error:", error);
+    throw error;
+  }
 };
 
 export const movieApi = {
-  async getNowPlaying(page = 1) {
-    const res = await fetch(`${BASE_URL}/movie/now_playing?api_key=${API_KEY}&page=${page}`);
-    if (!res.ok) throw new Error('Failed to fetch now playing movies');
-    return res.json();
+  /**
+   * @param type 'now_playing' | 'top_rated' | 'popular' | 'top_rated' | 'upcoming' | 'trending'
+   * @param page
+   */
+  getMovies: async (
+    type:
+      | "now_playing"
+      | "top_rated"
+      | "popular"
+      | "top_rated"
+      | "upcoming"
+      | "trending",
+    page = 1
+  ) => {
+    const url = `${BASE_URL}/movie/${type}?api_key=${API_KEY}&page=${page}`;
+    return fetchApi(url);
   },
 
-  async getTopRated(page = 1) {
-    const res = await fetch(`${BASE_URL}/movie/top_rated?api_key=${API_KEY}&page=${page}`);
-    if (!res.ok) throw new Error('Failed to fetch top rated movies');
-    return res.json();
+  getMovieDetail: async (id: number) => {
+    const url = `${BASE_URL}/movie/${id}?api_key=${API_KEY}`;
+    return fetchApi(url);
   },
 
-  async getMovieDetail(id: number) {
-    const res = await fetch(`${BASE_URL}/movie/${id}?api_key=${API_KEY}`);
-    if (!res.ok) throw new Error('Failed to fetch movie details');
-    return res.json();
-  },
-
-  async searchMovies(query: string) {
-    const res = await fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
-    if (!res.ok) throw new Error('Failed to search movies');
-    return res.json();
+  searchMovies: async (query: string) => {
+    const url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(
+      query
+    )}`;
+    return fetchApi(url);
   },
 };

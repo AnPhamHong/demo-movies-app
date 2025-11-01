@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from "react";
-import type { Movie, MovieCategory, ViewMode } from "../types/movie";
 import { movieApi } from "../api/api";
 import Skeleton from "./Skeleton";
 import ErrorMessage from "./ErrorMessage";
 import MovieCard from "./MovieCard";
-
-interface MovieListProps {
-  category: MovieCategory;
-  onMovieClick: (movieId: number) => void;
-  viewMode?: ViewMode;
-}
+import type { Movie, MovieListProps } from "../types/movie";
 
 const MovieList: React.FC<MovieListProps> = ({
   category,
@@ -23,6 +17,7 @@ const MovieList: React.FC<MovieListProps> = ({
 
   useEffect(() => {
     fetchMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, page]);
 
   const fetchMovies = async () => {
@@ -30,12 +25,7 @@ const MovieList: React.FC<MovieListProps> = ({
       setLoading(true);
       setError(null);
 
-      let response;
-      if (category === "now_playing") {
-        response = await movieApi.getNowPlaying(page);
-      } else {
-        response = await movieApi.getTopRated(page);
-      }
+      const response = await movieApi.getMovies(category, page);
 
       setMovies(response.results);
     } catch (err) {

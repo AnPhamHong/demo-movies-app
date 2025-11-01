@@ -6,8 +6,7 @@ import TabBar from "../components/TabBar";
 import MovieList from "../components/MovieList";
 import HeroSlider from "../components/HeroSlider";
 import ViewModeToggle from "../components/ViewModeToggle";
-import { MdOutlineLocalMovies } from "react-icons/md";
-import SearchBar from "../components/SearchBar";
+import Footer from "../components/Footer";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -20,7 +19,7 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     const fetchHeroMovies = async () => {
       try {
-        const response = await movieApi.getNowPlaying(1);
+        const response = await movieApi.getMovies("now_playing", 1);
         setHeroMovies(response.results);
       } catch (err) {
         console.error("Error fetching hero movies:", err);
@@ -92,6 +91,7 @@ const HomePage: React.FC = () => {
           viewMode={viewMode}
         />
       </main>
+      <Footer />
     </div>
   );
 };
