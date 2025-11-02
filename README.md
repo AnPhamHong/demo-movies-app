@@ -208,4 +208,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 👨‍💻 Author
 
-Built with ❤️ using React, TypeScript, and SCSS
+Built with An Pham Hong ❤️ using React, TypeScript, and SCSS
