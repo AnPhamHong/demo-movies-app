@@ -6,7 +6,7 @@ import TabBar from "../components/TabBar";
 import MovieList from "../components/MovieList";
 import HeroSlider from "../components/HeroSlider";
 import ViewModeToggle from "../components/ViewModeToggle";
-import Footer from "../components/Footer";
+import Footer from "../components/layout/Footer";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();

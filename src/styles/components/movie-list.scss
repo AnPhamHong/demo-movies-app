@@ -15,12 +15,6 @@
   }
 }
 
-// @media (max-width: 480px) {
-//   .movie-list.grid {
-//     grid-template-columns: repeat(2, 1fr);
-//     gap: 0.75rem;
-//   }
-// }
 .movie-list.list {
   display: flex;
   flex-direction: column;
@@ -76,5 +70,43 @@
         line-height: 1.4;
       }
     }
+  }
+  @media (max-width: 480px) {
+    .overview {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: flex-end;
+
+  .page-btn {
+    padding: 0.5rem 1rem;
+    background-color: #e50914;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:disabled {
+      background-color: #a0a0a0;
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: #e50914;
+    }
+  }
+
+  .page-info {
+    font-weight: 500;
+    color: #fff;
   }
 }

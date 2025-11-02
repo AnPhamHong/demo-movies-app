@@ -1,15 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import type { Movie } from "../types/movie";
+import type { SearchBarProps } from "../types/movie";
 import SearchDropdown from "./SearchDropdown";
-
-interface SearchBarProps {
-  onSearch: (query: string) => void;
-  placeholder?: string;
-  searchResults?: Movie[];
-  isSearching?: boolean;
-  onMovieClick?: (movieId: number) => void;
-  showDropdown?: boolean;
-}
 
 const SearchBar: React.FC<SearchBarProps> = ({
   onSearch,

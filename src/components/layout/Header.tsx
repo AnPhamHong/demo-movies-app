@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineLocalMovies } from "react-icons/md";
-import SearchBar from "./SearchBar";
-import type { Movie } from "../types/movie";
-
-interface HeaderProps {
-  onSearch: (query: string) => void;
-  searchResults?: Movie[];
-  isSearching?: boolean;
-  onMovieClick: (movieId: number) => void;
-}
+import type { HeaderProps } from "../../types/movie";
+import SearchBar from "../SearchBar";
 
 const Header: React.FC<HeaderProps> = ({
   onSearch,

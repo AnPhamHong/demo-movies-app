@@ -3,9 +3,6 @@ const BASE_URL =
   import.meta.env.VITE_TMDB_BASE_URL || "https://api.themoviedb.org/3";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 
-/**
- * Trả về URL ảnh TMDb
- */
 export const getImageUrl = (
   path: string | null,
   size: string = "w500"
@@ -13,9 +10,6 @@ export const getImageUrl = (
   return path ? `${IMAGE_BASE_URL}${size}${path}` : "";
 };
 
-/**
- * Wrapper fetch với check lỗi
- */
 const fetchApi = async (url: string) => {
   try {
     const res = await fetch(url);

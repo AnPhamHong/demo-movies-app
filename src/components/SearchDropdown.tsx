@@ -1,12 +1,6 @@
 import React from "react";
-import type { Movie } from "../types/movie";
 import { getImageUrl } from "../api/api";
-interface SearchDropdownProps {
-  movies: Movie[];
-  isLoading: boolean;
-  onMovieClick: (movieId: number) => void;
-  onClose: () => void;
-}
+import type { SearchDropdownProps } from "../types/movie";
 
 const SearchDropdown: React.FC<SearchDropdownProps> = ({
   movies,
@@ -19,7 +13,7 @@ const SearchDropdown: React.FC<SearchDropdownProps> = ({
       <div className="search-dropdown">
         <div className="search-dropdown__loading">
           <div className="search-dropdown__spinner"></div>
-          <p>Đang tìm kiếm...</p>
+          <p>Searching...</p>
         </div>
       </div>
     );
@@ -29,7 +23,7 @@ const SearchDropdown: React.FC<SearchDropdownProps> = ({
     return (
       <div className="search-dropdown">
         <div className="search-dropdown__empty">
-          <p>Không tìm thấy kết quả</p>
+          <p>Not found</p>
         </div>
       </div>
     );
@@ -38,7 +32,7 @@ const SearchDropdown: React.FC<SearchDropdownProps> = ({
   return (
     <div className="search-dropdown">
       <div className="search-dropdown__header">
-        <h3>Danh sách phim</h3>
+        <h3>Movie List</h3>
       </div>
       <div className="search-dropdown__list">
         {movies.slice(0, 5).map((movie) => (

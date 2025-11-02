@@ -1,9 +1,5 @@
 import React from "react";
-
-interface ErrorMessageProps {
-  message: string;
-  onRetry?: () => void;
-}
+import type { ErrorMessageProps } from "../types/movie";
 
 const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, onRetry }) => {
   return (

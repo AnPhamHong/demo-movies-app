@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { getImageUrl } from "../api/api";
 import { FaHeart, FaInfoCircle, FaPlay, FaStar } from "react-icons/fa";
 import type { MovieCardProps } from "../types/movie";
@@ -15,12 +15,34 @@ const MovieCard: React.FC<MovieCardProps> = ({
   const posterUrl = getImageUrl(movie.poster_path);
   const backdropUrl = getImageUrl(movie.backdrop_path);
 
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [direction, setDirection] = useState<"right" | "left">("right");
+  const cardRef = useRef<HTMLDivElement>(null);
+
   const handleImageLoad = () => {
     setImageLoaded(true);
   };
 
   const handleImageError = () => {
     setImageLoaded(true);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const x = e.clientX;
+    const y = e.clientY;
+
+    setMousePos({ x, y });
+
+    if (cardRef.current) {
+      const cardWidth = cardRef.current.offsetWidth;
+      const viewportWidth = window.innerWidth;
+
+      if (x + cardWidth > viewportWidth) {
+        setDirection("left");
+      } else {
+        setDirection("right");
+      }
+    }
   };
 
   return (
@@ -44,8 +66,8 @@ const MovieCard: React.FC<MovieCardProps> = ({
               {new Date(movie.release_date).getFullYear()}
             </span>
             <p className="overview">
-              {movie.overview.length > 130
-                ? `${movie.overview.slice(0, 130)}...`
+              {movie.overview.length > 250
+                ? `${movie.overview.slice(0, 250)}...`
                 : movie.overview}
             </p>
           </div>
@@ -56,6 +78,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
             className={`movie-card ${viewMode} ${imageLoaded ? "loaded" : ""}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            onMouseMove={(e) => handleMouseMove(e)}
           >
             <img
               src={posterUrl}
@@ -66,7 +89,19 @@ const MovieCard: React.FC<MovieCardProps> = ({
               loading="lazy"
             />
             {isHovered && (
-              <div className="movie-card__expanded">
+              <div
+                className="movie-card__expanded"
+                style={{
+                  position: "fixed",
+                  left:
+                    direction === "right"
+                      ? mousePos.x
+                      : mousePos.x - (cardRef.current?.offsetWidth || 0),
+                  top: mousePos.y + 10,
+                  transform: "translate(0, 0)",
+                  pointerEvents: "none",
+                }}
+              >
                 <img
                   src={backdropUrl}
                   alt={movie.title}

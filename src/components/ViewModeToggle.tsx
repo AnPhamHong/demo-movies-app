@@ -1,9 +1,5 @@
 import React from "react";
-import type { ViewMode } from "../types/movie";
-interface ViewModeToggleProps {
-  viewMode: ViewMode;
-  onViewModeChange: (mode: ViewMode) => void;
-}
+import type { ViewModeToggleProps } from "../types/movie";
 
 const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
   viewMode,

@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from "react";
-import type { Movie } from "../types/movie";
+import type { HeroSliderProps } from "../types/movie";
 import { getImageUrl } from "../api/api";
-import Header from "./Header";
 import { FaInfoCircle, FaPlay, FaStar } from "react-icons/fa";
-
-interface HeroSliderProps {
-  movies: Movie[];
-  onMovieClick: (movieId: number) => void;
-  onSearch: (query: string) => void;
-  searchResults?: Movie[];
-  isSearching?: boolean;
-}
+import Header from "./layout/Header";
 
 const HeroSlider: React.FC<HeroSliderProps> = ({
   movies,
